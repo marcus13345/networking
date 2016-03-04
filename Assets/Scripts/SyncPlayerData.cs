@@ -92,7 +92,7 @@ public class SyncPlayerData : NetworkBehaviour {
 		}
 	}
 
-	public void update() {
+	public void Update() {
 		if (!isLocalPlayer) {
 			//if we're essentially a dummy character, animate ourselves to where the real deal is.
 			lerpToData ();
