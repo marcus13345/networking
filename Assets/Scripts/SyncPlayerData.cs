@@ -65,6 +65,9 @@ public class SyncPlayerData : NetworkBehaviour {
 	[SerializeField]
 	private Rigidbody rigidbody;
 
+	[SerializeField]
+	private static float animationSpeed = 8f;
+
 	[SyncVar]
 	public string playerName = "Player";
 	[SyncVar]
@@ -89,6 +92,13 @@ public class SyncPlayerData : NetworkBehaviour {
 		}
 	}
 
+	public void update() {
+		if (!isLocalPlayer) {
+			//if we're essentially a dummy character, animate ourselves to where the real deal is.
+			lerpToData ();
+		}
+	}
+
 	/// <summary>
 	/// pull relevant information from gameobject into local variables
 	/// </summary>
@@ -103,14 +113,14 @@ public class SyncPlayerData : NetworkBehaviour {
 	/// once every frame with update and is used to reduce latency stutter.
 	/// </summary>
 	private void lerpToData() {
-		
+		transform.position = Vector3.Lerp (transform.position, new Vector3 (x, y, z), Time.deltaTime / .017f * (1f / animationSpeed));
 	}
 
 	/// <summary>
 	/// push local varialbes back in to the game object.
 	/// </summary>
 	private void deserializeData() {
-		
+		//we're not using this anymore because the data will be lerped.
 		//transform.position = new Vector3(x, y, z);
 	}
 
